@@ -3,6 +3,7 @@ import io
 
 import numpy as np
 from PIL import Image
+from PIL import ImageFile
 from pymatting.alpha.estimate_alpha_cf import estimate_alpha_cf
 from pymatting.foreground.estimate_foreground_ml import estimate_foreground_ml
 from pymatting.util.util import stack_images
@@ -88,6 +89,7 @@ def remove(
     alpha_matting_base_size=1000,
 ):
     model = get_model(model_name)
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
     img = Image.open(io.BytesIO(data)).convert("RGB")
     mask = detect.predict(model, np.array(img)).convert("L")
 
